@@ -9,7 +9,7 @@ import pandas
 map = folium.Map(location=[38.58,-98.09],zoom_start=6)
 
 #feature group. group of features like marker
-fg = folium.FeatureGroup(name="MyMap")
+fgv = folium.FeatureGroup(name="Valcanoes")
 
 #read data
 data = pandas.read_csv("Volcanoes.txt")
@@ -29,14 +29,19 @@ def color_producer(elevation):
 
 #add marker
 for lt,ln,nm,el in zip(lat,lon,name,elev):
-    fg.add_child(folium.Marker(location=[lt,ln],popup=nm+" "+str(el)+" m",icon=folium.Icon(color=color_producer(el))))
+    fgv.add_child(folium.Marker(location=[lt,ln],popup=nm+" "+str(el)+" m",icon=folium.Icon(color=color_producer(el))))
+
+#feature group for polygon layer
+fgp = folium.FeatureGroup(name="Population")
 
 #It's polygon layer which is best suitable to show areas on map.
 #Here, we are showing world population data by countries using polygon layer on the map.
-fg.add_child(folium.GeoJson(data=open("world.json",'r',encoding='utf-8-sig').read(),
+fgp.add_child(folium.GeoJson(data=open("world.json",'r',encoding='utf-8-sig').read(),
                             style_function=lambda x: {'fillColor':'yellow'}))
 
-map.add_child(fg)
+map.add_child(fgv)
+map.add_child(fgp)
+map.add_child(folium.LayerControl())
 
 #save map object in html file.
 map.save("map.html")
