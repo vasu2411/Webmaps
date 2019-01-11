@@ -11,12 +11,14 @@ map = folium.Map(location=[38.58,-98.09],zoom_start=6)
 #feature group. group of features like marker
 fg = folium.FeatureGroup(name="MyMap")
 
+#read data
 data = pandas.read_csv("Volcanoes.txt")
 lat = list(data["LAT"])
 lon = list(data["LON"])
 name = list(data["NAME"])
 elev = list(data["ELEV"])
 
+#function to return color based on valcanoes's elevation
 def color_producer(elevation):
     if elevation<1000:
         return 'green'
